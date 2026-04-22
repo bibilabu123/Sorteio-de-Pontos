@@ -53,32 +53,36 @@
         }
         .points-pill.pop { transform: scale(1.08); color: var(--accent-orange); }
 
+        /* 【UI布局修复核心1】: 取消 space-evenly，改为顶部对齐，防止高度不够时挤压 */
         .content-area {
-            flex: 1; display: flex; flex-direction: column; justify-content: space-evenly;
-            align-items: center; padding: 10px 0; overflow-y: auto; background: transparent;
+            flex: 1; display: flex; flex-direction: column; justify-content: flex-start;
+            align-items: center; padding: 15px 0 0 0; overflow-y: hidden; background: transparent;
         }
 
-        .hero-text { text-align: center; flex-shrink: 0; padding: 10px 0; }
-        /* 微调葡语主标题排版 */
-        .hero-text h1 { margin: 0; font-size: 28px; font-weight: 800; color: var(--text-main); letter-spacing: 0.5px; text-shadow: 0 2px 15px rgba(255,255,255,0.9); }
-        .hero-text p { margin: 8px 0 0; font-size: 13px; font-weight: 500; color: var(--text-sub); letter-spacing: 1px; text-transform: uppercase; }
+        /* 【UI布局修复核心2】: 增加固定间距，并强化白底发光阴影以对抗花哨的背景图 */
+        .hero-text { text-align: center; flex-shrink: 0; margin-bottom: 18px; z-index: 10; }
+        .hero-text h1 { margin: 0; font-size: 28px; font-weight: 800; color: var(--text-main); letter-spacing: 0.5px; text-shadow: 0 2px 25px rgba(255,255,255,1), 0 0 10px rgba(255,255,255,0.9); }
+        .hero-text p { margin: 8px 0 0; font-size: 13px; font-weight: 600; color: var(--text-sub); letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 2px 15px rgba(255,255,255,1), 0 0 8px rgba(255,255,255,0.9); }
 
         .marquee-wrapper {
             width: 85%; height: 32px; border-radius: 16px;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 0.5px solid rgba(255, 255, 255, 0.4);
-            margin: 10px 0; overflow: hidden; position: relative;
-            display: flex; align-items: center;
+            border: 0.5px solid rgba(255, 255, 255, 0.5);
+            margin-bottom: 25px; overflow: hidden; position: relative;
+            display: flex; align-items: center; flex-shrink: 0;
             -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
             mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
         }
-        /* 放慢动画时间，适应葡语长文本 */
         .marquee-content { display: flex; white-space: nowrap; animation: scroll-marquee 45s linear infinite; }
-        .marquee-item { font-size: 12px; font-weight: 500; color: var(--text-main); opacity: 0.7; padding-right: 50px; letter-spacing: 0.5px; }
+        .marquee-item { font-size: 12px; font-weight: 600; color: var(--text-main); opacity: 0.8; padding-right: 50px; letter-spacing: 0.5px; }
         @keyframes scroll-marquee { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
-        .scale-wrapper { width: 100%; display: flex; justify-content: center; align-items: center; padding: 0 9%; flex: 1; min-height: 0; }
+        /* 【UI布局修复核心3】: 转盘区域自适应剩余高度并垂直居中 */
+        .scale-wrapper { 
+            width: 100%; display: flex; justify-content: center; align-items: center; 
+            padding: 0 5%; flex: 1; min-height: 350px; 
+        }
         .main-stage { position: relative; width: 100%; max-width: 360px; aspect-ratio: 1 / 1; display: flex; justify-content: center; align-items: center; transform: scale(min(calc((100vw - 40px) / 440), calc(100vh / 800), 1)); transform-origin: center center; }
         
         .outer-frame { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: rgba(255, 255, 255, 0.85); box-shadow: var(--shadow-soft); z-index: 1; }
@@ -111,17 +115,15 @@
         
         .core-btn { position: absolute; width: 76px; height: 76px; border-radius: 50%; z-index: 10; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 6px 16px rgba(0,0,0,0.08), inset 0 2px 5px rgba(255,255,255,1); border: 1px solid rgba(255,255,255,0.5); transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1); }
         .core-btn:active { transform: scale(0.92); background: #f2f2f7; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        /* 调整“抽奖”文字 */
         .core-btn-text { color: var(--accent-blue); font-weight: 600; font-size: 15px; letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,113,227,0.1); }
         .core-btn-sub { color: var(--text-sub); font-size: 9px; margin-top: 3px; font-weight: 500; }
 
         .bottom-section {
             flex-shrink: 0; width: 100%; padding: 20px 24px calc(var(--safe-area-bottom) + 15px);
             display: flex; flex-direction: column; align-items: center;
-            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%); border-top: 0.5px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(40px) saturate(200%); -webkit-backdrop-filter: blur(40px) saturate(200%); border-top: 0.5px solid var(--glass-border);
         }
         .action-bar { width: 100%; display: flex; gap: 12px; margin-bottom: 20px; }
-        /* 微调底部按钮内边距和字号 */
         .action-btn { flex: 1; background: rgba(255, 255, 255, 0.75); border: 1px solid rgba(255,255,255,0.4); padding: 14px 10px; border-radius: 16px; color: var(--text-main); font-size: 14px; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.04); transition: all 0.2s; white-space: nowrap; }
         .action-btn:active { background: #fff; transform: scale(0.97); }
         .action-btn svg { width: 18px; height: 18px; opacity: 0.8; flex-shrink: 0;}
@@ -186,6 +188,7 @@
                 <span class="marquee-item">O usuário 138****9923 acabou de ganhar um AirPods Max</span>
                 <span class="marquee-item">O usuário 155****0021 resgatou com sucesso um iPhone 15 Pro</span>
                 <span class="marquee-item">O usuário 186****7721 ganhou um iPad Pro 12.9</span>
+                <span class="marquee-item">O usuário 131****4490 ganhou um MacBook Pro 16</span>
             </div>
         </div>
 
@@ -328,6 +331,11 @@
 
     function easeOutQuart(t) { return 1 - (--t) * t * t * t; }
 
+    // 【修复 BUG 核心函数】：处理带有负数的角度取模问题
+    function getNormAngle(a) { 
+        return ((a % 360) + 360) % 360; 
+    }
+
     function animateLoop() {
         if (isSpinning) {
             let now = performance.now();
@@ -385,11 +393,18 @@
         
         const safeOffset = (Math.random() * 30) - 15; 
         
-        let baseOuter = 360 - (outerIdx * 45 + 22.5) - 90;
-        targetOuter = startOuter + (5 * 360) + ((baseOuter - (startOuter % 360) + 360) % 360) + safeOffset;
-        
-        let baseInner = (innerIdx * 45 + 22.5) + 90;
-        targetInner = startInner - (8 * 360) - (((startInner % 360) - baseInner + 360) % 360) + safeOffset; 
+        // 【修复 BUG 核心】：完全重写绝对角度推算，保证视觉位置与生成的 Index 一一对应
+        let curOuter = getNormAngle(startOuter);
+        let targetOAngle = getNormAngle(247.5 - outerIdx * 45); // 270(正上方) - (i * 45 + 22.5)(画图起始偏移)
+        let diffO = targetOAngle - curOuter;
+        if (diffO < 0) diffO += 360; 
+        targetOuter = startOuter + (5 * 360) + diffO + safeOffset;
+
+        let curInner = getNormAngle(startInner);
+        let targetIAngle = getNormAngle(247.5 - innerIdx * 45);
+        let diffI = targetIAngle - curInner;
+        if (diffI > 0) diffI -= 360; // 内环反方向旋转
+        targetInner = startInner - (8 * 360) + diffI + safeOffset; 
         
         lastSectorIndex = Math.floor((startOuter + 22.5) / sectorAngle);
     });
