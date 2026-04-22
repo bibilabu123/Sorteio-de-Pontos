@@ -53,13 +53,11 @@
         }
         .points-pill.pop { transform: scale(1.08); color: var(--accent-orange); }
 
-        /* 【UI布局修复核心1】: 取消 space-evenly，改为顶部对齐，防止高度不够时挤压 */
         .content-area {
             flex: 1; display: flex; flex-direction: column; justify-content: flex-start;
             align-items: center; padding: 15px 0 0 0; overflow-y: hidden; background: transparent;
         }
 
-        /* 【UI布局修复核心2】: 增加固定间距，并强化白底发光阴影以对抗花哨的背景图 */
         .hero-text { text-align: center; flex-shrink: 0; margin-bottom: 18px; z-index: 10; }
         .hero-text h1 { margin: 0; font-size: 28px; font-weight: 800; color: var(--text-main); letter-spacing: 0.5px; text-shadow: 0 2px 25px rgba(255,255,255,1), 0 0 10px rgba(255,255,255,0.9); }
         .hero-text p { margin: 8px 0 0; font-size: 13px; font-weight: 600; color: var(--text-sub); letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 2px 15px rgba(255,255,255,1), 0 0 8px rgba(255,255,255,0.9); }
@@ -78,7 +76,6 @@
         .marquee-item { font-size: 12px; font-weight: 600; color: var(--text-main); opacity: 0.8; padding-right: 50px; letter-spacing: 0.5px; }
         @keyframes scroll-marquee { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
-        /* 【UI布局修复核心3】: 转盘区域自适应剩余高度并垂直居中 */
         .scale-wrapper { 
             width: 100%; display: flex; justify-content: center; align-items: center; 
             padding: 0 5%; flex: 1; min-height: 350px; 
@@ -128,9 +125,9 @@
         .action-btn:active { background: #fff; transform: scale(0.97); }
         .action-btn svg { width: 18px; height: 18px; opacity: 0.8; flex-shrink: 0;}
         
-        .footer { text-align: center; }
+        .footer { text-align: center; width: 100%; }
+        .footer-links { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 5px; }
         .rules-link { color: var(--text-sub); font-size: 13px; font-weight: 500; text-decoration: underline; cursor: pointer; }
-        .disclaimer { margin-top: 12px; font-size: 11px; color: #98989d; line-height: 1.6; text-align: center; }
 
         #confettiCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 999; }
 
@@ -185,10 +182,14 @@
 
         <div class="marquee-wrapper">
             <div class="marquee-content">
-                <span class="marquee-item">O usuário 138****9923 acabou de ganhar um AirPods Max</span>
-                <span class="marquee-item">O usuário 155****0021 resgatou com sucesso um iPhone 15 Pro</span>
-                <span class="marquee-item">O usuário 186****7721 ganhou um iPad Pro 12.9</span>
-                <span class="marquee-item">O usuário 131****4490 ganhou um MacBook Pro 16</span>
+                <span class="marquee-item">O usuário (11) 9****-9923 acabou de ganhar um AirPods Max</span>
+                <span class="marquee-item">O usuário (21) 9****-0021 resgatou com sucesso um iPhone 15 Pro</span>
+                <span class="marquee-item">O usuário (31) 9****-7721 ganhou um iPad Pro</span>
+                <span class="marquee-item">O usuário (41) 9****-4490 tirou um MacBook Pro 16</span>
+                <span class="marquee-item">O usuário (51) 9****-1122 acabou de ganhar um Apple Watch</span>
+                <span class="marquee-item">O usuário (11) 9****-9923 acabou de ganhar um AirPods Max</span>
+                <span class="marquee-item">O usuário (21) 9****-0021 resgatou com sucesso um iPhone 15 Pro</span>
+                <span class="marquee-item">O usuário (31) 9****-7721 ganhou um iPad Pro</span>
             </div>
         </div>
 
@@ -213,8 +214,11 @@
             <div class="action-btn" onclick="earnPoints()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"></path></svg>Ganhar Pontos</div>
         </div>
         <footer class="footer">
-            <span class="rules-link" onclick="openRulesModal()">Regras e Instruções</span>
-            <div class="disclaimer">* Aviso: Esta promoção não é afiliada à Apple Inc.<br>* Página apenas para fins de demonstração.</div>
+            <div class="footer-links">
+                <span class="rules-link" onclick="openRulesModal()">Regras e Instruções</span>
+                <span style="color: #98989d; font-size: 13px;">|</span>
+                <span class="rules-link" onclick="openDisclaimerModal()">Aviso Legal</span>
+            </div>
         </footer>
     </div>
 </div>
@@ -222,6 +226,19 @@
 <div class="modal-overlay" id="resultModal"><div class="modal-card"><h2 id="modalTitle" class="modal-title">Tente Novamente</h2><img id="winImage" class="win-image" src="" alt="Prêmio"><button class="modal-btn gray" id="closeBtn" onclick="closeAllModals()">Fechar</button></div></div>
 <div class="modal-overlay" id="prizesModal"><div class="modal-card"><h2 class="modal-title">Meus Prêmios</h2><div class="prize-list" id="prizeListContainer"></div><button class="modal-btn gray" onclick="closeAllModals()">Fechar</button></div></div>
 <div class="modal-overlay" id="rulesModal"><div class="modal-card"><h2 class="modal-title">Regras</h2><div class="rules-content">1. Cada giro custa 10 pontos.<br><br>2. Para ganhar, as imagens dos anéis interno e externo devem coincidir perfeitamente quando a roleta parar.<br><br>3. Resgate os prêmios físicos em até 7 dias úteis.</div><button class="modal-btn" onclick="closeAllModals()">Entendi</button></div></div>
+
+<div class="modal-overlay" id="disclaimerModal">
+    <div class="modal-card">
+        <h2 class="modal-title">Aviso Legal</h2>
+        <div class="rules-content">
+            1. O ganho final não é garantido<br><br>
+            2. Não é permitida a entrada de menores de 18 anos.<br>O ganho/efeito final está sujeito às regras do jogo ou evento.<br><br>
+            3. Site independente, sem relação com o Kwai. Interpretação final e benefícios exclusivos desta plataforma.
+        </div>
+        <button class="modal-btn" onclick="closeAllModals()">Entendi</button>
+    </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -331,7 +348,6 @@
 
     function easeOutQuart(t) { return 1 - (--t) * t * t * t; }
 
-    // 【修复 BUG 核心函数】：处理带有负数的角度取模问题
     function getNormAngle(a) { 
         return ((a % 360) + 360) % 360; 
     }
@@ -393,9 +409,8 @@
         
         const safeOffset = (Math.random() * 30) - 15; 
         
-        // 【修复 BUG 核心】：完全重写绝对角度推算，保证视觉位置与生成的 Index 一一对应
         let curOuter = getNormAngle(startOuter);
-        let targetOAngle = getNormAngle(247.5 - outerIdx * 45); // 270(正上方) - (i * 45 + 22.5)(画图起始偏移)
+        let targetOAngle = getNormAngle(247.5 - outerIdx * 45);
         let diffO = targetOAngle - curOuter;
         if (diffO < 0) diffO += 360; 
         targetOuter = startOuter + (5 * 360) + diffO + safeOffset;
@@ -403,7 +418,7 @@
         let curInner = getNormAngle(startInner);
         let targetIAngle = getNormAngle(247.5 - innerIdx * 45);
         let diffI = targetIAngle - curInner;
-        if (diffI > 0) diffI -= 360; // 内环反方向旋转
+        if (diffI > 0) diffI -= 360; 
         targetInner = startInner - (8 * 360) + diffI + safeOffset; 
         
         lastSectorIndex = Math.floor((startOuter + 22.5) / sectorAngle);
@@ -431,8 +446,11 @@
     function animateConfetti() { if (confettiParticles.length === 0) { confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height); return; } confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height); confettiParticles.forEach((p, index) => { p.update(); p.draw(); if (p.opacity <= 0) confettiParticles.splice(index, 1); }); requestAnimationFrame(animateConfetti); }
 
     function openPrizesModal() { if(isSpinning) return; const container = document.getElementById('prizeListContainer'); container.innerHTML = myPrizesArray.length === 0 ? '<div class="empty-state">Sem histórico de prêmios</div>' : ''; myPrizesArray.forEach(p => { const item = document.createElement('div'); item.className = 'prize-item'; item.innerHTML = `<img src="${p.imgSrc}"><div class="prize-item-info"><div class="prize-item-date">${p.date}</div></div><button class="redeem-btn" onclick="redeemPrize()">Resgatar</button>`; container.appendChild(item); }); document.getElementById('prizesModal').style.display = 'flex'; }
+    
     function openRulesModal() { document.getElementById('rulesModal').style.display = 'flex'; }
+    function openDisclaimerModal() { document.getElementById('disclaimerModal').style.display = 'flex'; }
     function closeAllModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
+    
     function redeemPrize() { showToast("Conectando interface de resgate..."); setTimeout(() => showToast("Falha na rede, tente novamente"), 2000); }
     function earnPoints() { showToast("Carregando tarefas..."); setTimeout(() => showToast("Falha na rede, tente novamente"), 2000); }
     function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.style.opacity = '1'; setTimeout(() => t.style.opacity = '0', 2000); }
